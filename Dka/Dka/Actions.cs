@@ -65,9 +65,7 @@ namespace Dka
 
 			if (action == 5)
 			{
-				Console.WriteLine("Result = ");
-				Console.WriteLine(polstr);
-				Console.WriteLine("\nNon-optimized code:");
+				Console.WriteLine("Result = \n{0}' \n\nNon-optimized code:", polstr);
 
 				string s = code.Peek();
 				Console.WriteLine(code.Pop());
