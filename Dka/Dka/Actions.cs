@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Lab1
+namespace Dka
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			Automat A = new Automat("cost = ((price + 2E-4 + 1)  *0.98 * x + 2) * qq * ww + ee + rr", Actions.Run);
-			var result = A.Calculations();
-
-			if (!result.status)
-			{
-				Console.WriteLine("Error in position");
-				Console.WriteLine(result.position);
-			}
-
-			Console.ReadKey();
-			return;
-		}
-	}
-
 	static class Actions
 	{
 		static string stor = "", polstr = "";
 		static Stack<char> signs = new Stack<char>();
 		static Stack<string> code = new Stack<string>();
+
 		static Dictionary<char, int> prior = new Dictionary<char, int>()
 		{
 			{')', 0},
@@ -81,8 +65,9 @@ namespace Lab1
 
 			if (action == 5)
 			{
-				Console.WriteLine("POLSTR = ");
+				Console.WriteLine("Result = ");
 				Console.WriteLine(polstr);
+				Console.WriteLine("\nNon-optimized code:");
 
 				string s = code.Peek();
 				Console.WriteLine(code.Pop());
@@ -119,9 +104,9 @@ namespace Lab1
 				// optimization
 				flag = true;
 
-				while(flag)
+				while (flag)
 				{
-					flag = false; 
+					flag = false;
 
 					for (int i = 1; i < actions_opt.Count; i++)
 					{
@@ -204,7 +189,7 @@ namespace Lab1
 					}
 				}
 
-				Console.WriteLine("---------");
+				Console.WriteLine("\nOptimized code:");
 
 				foreach ((string, string) i in actions_opt)
 					Console.WriteLine(i);
@@ -224,19 +209,19 @@ namespace Lab1
 
 		static public int[,,] delta =
 		{
-			/*q0*/{{1, 0 } , {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {1, 0 }, {0, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }},
-			/*q1*/{{1, 0 }, {1, 0 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {1, 0 }, {2, NA }, {ERROR, NA }, {ERROR, NA }, {3, 1 }, {ERROR, NA }, {ERROR, NA }},
-			/*q2*/{{ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {2, NA }, {ERROR, NA }, {ERROR, NA }, {3, 1 }, {ERROR, NA }, {ERROR, NA } },
-			/*q3*/{{4, 0 }, {6, 0 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {4, 0 }, {3, NA }, {3, 1 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }},
-			/*q4*/{{4, 0 }, {4, 0 }, {3, 1 }, {3, 1 }, {ERROR, NA }, {4, 0 }, {5, NA }, {ERROR, NA }, {12, 1 }, {ERROR, NA }, {ERROR, NA }, {HALT, 5 }},
-			/*q5*/{{ERROR, NA }, {ERROR, NA }, {3, 1 }, {3, 1 }, {ERROR, NA }, {ERROR, NA }, {5, NA }, {ERROR, NA }, {12, 1 }, {ERROR, NA }, {ERROR, NA }, {HALT, 5 } },
-			/*q6*/{{ERROR, NA }, {6, 0 }, {3, 1 }, {3, 1 }, {ERROR, NA }, {7, 0 }, {5, NA }, {ERROR, NA }, {12, 1 }, {ERROR, NA }, {10, 0 }, {HALT, 5 } },
-			/*q7*/{{ERROR, NA }, {9, 0 }, {8, 0 }, {ERROR, NA }, {8, 0 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }},
-			/*q8*/{{ERROR, NA }, {9, 0 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA } },
-			/*q9*/{{ERROR, NA }, {9, 0 }, {3, 1 }, {3, 1 }, {ERROR, NA }, {ERROR, NA }, {5, NA }, {ERROR, NA }, {12, 1 }, {ERROR, NA }, {ERROR, NA }, {HALT, 5 } },
-			/*q10*/{{ERROR, NA }, {11, 0 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA } },
-			/*q11*/{{ERROR, NA }, {11, 0 }, {3, 1 }, {3, 1 }, {ERROR, NA }, {7, 0 }, {5, NA }, {5, 1 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {HALT, 5 } },
-			/*q12*/{{ERROR, NA }, {ERROR, NA }, {3, 1 }, {3, 1 }, {ERROR, NA }, {ERROR, NA }, {5, NA }, {5, 1 }, {ERROR, NA }, {ERROR, NA }, {ERROR, NA }, {HALT, 5 } },
+			/*q0*/ {{1, 0 } ,		 {ERROR, NA },		{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{1, 0 },		{0, NA },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA }},
+			/*q1*/ {{1, 0 },		 {1, 0 },			{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{1, 0 },		{2, NA },		{ERROR, NA },	{ERROR, NA },	{3, 1 },		{ERROR, NA },	{ERROR, NA }},
+			/*q2*/ {{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{ERROR, NA },	{2, NA },		{ERROR, NA },	{ERROR, NA },	{3, 1 },		{ERROR, NA },	{ERROR, NA } },
+			/*q3*/ {{4, 0 },		 {6, 0 },			{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{4, 0 },		{3, NA },		{3, 1 },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA }},
+			/*q4*/ {{4, 0 },		 {4, 0 },			{3, 1 },		 {3, 1 },			{ERROR, NA },		{4, 0 },		{5, NA },		{ERROR, NA },	{12, 1 },		{ERROR, NA },	{ERROR, NA },	{HALT, 5 }},
+			/*q5*/ {{ERROR, NA },	 {ERROR, NA },		{3, 1 },		 {3, 1 },			{ERROR, NA },		{ERROR, NA },	{5, NA },		{ERROR, NA },	{12, 1 },		{ERROR, NA },	{ERROR, NA },	{HALT, 5 } },
+			/*q6*/ {{ERROR, NA },	 {6, 0 },			{3, 1 },		 {3, 1 },			{ERROR, NA },		{7, 0 },		{5, NA },		{ERROR, NA },	{12, 1 },		{ERROR, NA },	{10, 0 },		{HALT, 5 } },
+			/*q7*/ {{ERROR, NA },	 {9, 0 },			{8, 0 },		 {ERROR, NA },		{8, 0 },			{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA }},
+			/*q8*/ {{ERROR, NA },	 {9, 0 },			{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA } },
+			/*q9*/ {{ERROR, NA },	 {9, 0 },			{3, 1 },		 {3, 1 },			{ERROR, NA },		{ERROR, NA },	{5, NA },		{ERROR, NA },	{12, 1 },		{ERROR, NA },	{ERROR, NA },	{HALT, 5 } },
+			/*q10*/ {{ERROR, NA },	 {11, 0 },			{ERROR, NA },	 {ERROR, NA },		{ERROR, NA },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{ERROR, NA } },
+			/*q11*/ {{ERROR, NA },	 {11, 0 },			{3, 1 },		 {3, 1 },			{ERROR, NA },		{7, 0 },		{5, NA },		{5, 1 },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{HALT, 5 } },
+			/*q12*/ {{ERROR, NA },	 {ERROR, NA },		{3, 1 },		 {3, 1 },			{ERROR, NA },		{ERROR, NA },	{5, NA },		{5, 1 },		{ERROR, NA },	{ERROR, NA },	{ERROR, NA },	{HALT, 5 } },
 		};
 
 		string text = "\0";
@@ -256,8 +241,8 @@ namespace Lab1
         */
 		public int Helper(char text)
 		{
-			for(int i = 0; i < alphabet.Length; i++)
-				if(alphabet[i].Contains(text))
+			for (int i = 0; i < alphabet.Length; i++)
+				if (alphabet[i].Contains(text))
 					return i;
 
 			return -1;
@@ -272,7 +257,7 @@ namespace Lab1
 			int state = 0;
 			int i = 0;
 
-			while (state != HALT && state != ERROR )
+			while (state != HALT && state != ERROR)
 			{
 				index = Helper(text[i]);
 
@@ -291,7 +276,7 @@ namespace Lab1
 						return (true, i);
 					else if (state == ERROR)
 						return (false, i);
-				}				
+				}
 				i++;
 			}
 			return (false, i);
