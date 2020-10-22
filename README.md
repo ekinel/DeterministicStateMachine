@@ -1,6 +1,6 @@
 # DESCRIPTION
 
-The program with the help of DFA builds a tree that corresponds to the entered expression and produces for it
+The program with the help of DKA builds a tree that corresponds to the entered expression and produces for it
 - a table of names;
 - non-optimized code;
 - optimized code.
